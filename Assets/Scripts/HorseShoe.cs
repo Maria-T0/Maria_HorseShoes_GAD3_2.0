@@ -2,7 +2,6 @@ using UnityEngine;
 public class HorseShoe : MonoBehaviour
 {
     [SerializeField] private Pole pole;
-    [SerializeField] private ScoreSystem scoreSystem;
     [SerializeField] public Transform horseShoeSnap;
     [SerializeField] private Transform tableSnap;
     [SerializeField] public GameObject horseShoePrefab;
@@ -14,10 +13,9 @@ public class HorseShoe : MonoBehaviour
         if (other.CompareTag("Pole"))
         {
             Debug.Log("HorseShoe hit the pole! Score increased!");
-            if (scoreSystem != null)
-            {
-                scoreSystem.AddScore();
-            }
+   
+                scoreManager.AddPoint();
+            
         }
         else if (other.CompareTag("NotTable"))
         {

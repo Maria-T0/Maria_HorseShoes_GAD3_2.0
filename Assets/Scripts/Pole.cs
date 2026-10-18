@@ -8,7 +8,7 @@ using TMPro;
 public class Pole : MonoBehaviour
 {
     [SerializeField] private HorseShoe horseShoe;
-    [SerializeField] private ScoreSystem scoreSystem;
+
     [SerializeField] private TMP_Text hitText; // TextMeshPro text to update when a horseshoe hits the pole
 
     private bool spawn = false;
@@ -47,10 +47,8 @@ public class Pole : MonoBehaviour
             horseShoe.transform.rotation = horseShoe.horseShoeSnap.rotation;
 
             // Update score if a ScoreSystem is attached
-            if (scoreSystem != null)
-            {
-                scoreSystem.AddScore();
-            }
+
+                scoreManager.AddPoint();
 
             // Update the TextMeshPro text (if assigned in the inspector)
             if (hitText != null)
