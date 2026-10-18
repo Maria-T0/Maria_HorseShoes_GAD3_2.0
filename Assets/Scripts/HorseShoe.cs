@@ -1,28 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.XR.OpenXR.Input;
 public class HorseShoe : MonoBehaviour
 {
     [SerializeField] private Pole pole;
+    [SerializeField] private ScoreSystem scoreSystem;
     [SerializeField] public Transform horseShoeSnap;
     [SerializeField] private Transform tableSnap;
     [SerializeField] public GameObject horseShoePrefab;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+    public float RewardScore;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("NotTable"))
+        // Check if horseshoe hit the pole
+        if (other.CompareTag("Pole"))
+        {
+            Debug.Log("HorseShoe hit the pole! Score increased!");
+            if (scoreSystem != null)
+            {
+                scoreSystem.AddScore();
+            }
+        }
+        else if (other.CompareTag("NotTable"))
         {
             Debug.Log("HorseShoe entered not table trigger");
         }

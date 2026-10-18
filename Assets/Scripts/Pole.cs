@@ -3,11 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.PlayerLoop;
 using System.Runtime.CompilerServices;
+using TMPro;
 
 public class Pole : MonoBehaviour
 {
     [SerializeField] private HorseShoe horseShoe;
+    [SerializeField] private ScoreSystem scoreSystem;
+    [SerializeField] private TMP_Text hitText; // TextMeshPro text to update when a horseshoe hits the pole
+
     private bool spawn = false;
+    private float spawnTimer = 0f;
+    private const float SPAWN_DELAY = 1f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -19,19 +25,41 @@ public class Pole : MonoBehaviour
     {
         if (spawn)
         {
-            Invoke("DelayedSpawn", 1f);
+            spawnTimer += Time.deltaTime;
+            if (spawnTimer >= SPAWN_DELAY)
+            {
+                DelayedSpawn();
+            }
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("HorseShoe"))
+        // Try to find a HorseShoe component either on the collider itself or on a parent (handles Rigidbody on the Snap parent)
+        HorseShoe incoming = other.GetComponent<HorseShoe>() ?? other.GetComponentInParent<HorseShoe>();
+
+        if (incoming != null || other.CompareTag("HorseShoe"))
         {
             Debug.Log("HorseShoe entered the pole trigger");
+
+            // Position the horseshoe snap (keeps existing behavior)
             horseShoe.transform.position = horseShoe.horseShoeSnap.position;
             horseShoe.transform.rotation = horseShoe.horseShoeSnap.rotation;
 
+            // Update score if a ScoreSystem is attached
+            if (scoreSystem != null)
+            {
+                scoreSystem.AddScore();
+            }
+
+            // Update the TextMeshPro text (if assigned in the inspector)
+            if (hitText != null)
+            {
+                hitText.text = "Hit!"; // change to any message you prefer, or set to scoreSystem's value if available
+            }
+
             spawn = true;
+            spawnTimer = 0f;
         }
     }
 
@@ -39,7 +67,6 @@ public class Pole : MonoBehaviour
     {
         Instantiate(horseShoe.horseShoePrefab, horseShoe.horseShoeSnap.position, horseShoe.horseShoeSnap.rotation);
         spawn = false;
-
-        Destroy(horseShoe);
+        spawnTimer = 0f;
     }
 }
