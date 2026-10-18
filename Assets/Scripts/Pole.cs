@@ -1,14 +1,12 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.PlayerLoop;
-using System.Runtime.CompilerServices;
 using TMPro;
 
 public class Pole : MonoBehaviour
 {
     [SerializeField] private HorseShoe horseShoe;
-
+    public ScoreManager scoreManager;
     [SerializeField] private TMP_Text hitText; // TextMeshPro text to update when a horseshoe hits the pole
 
     private bool spawn = false;
@@ -47,8 +45,10 @@ public class Pole : MonoBehaviour
             horseShoe.transform.rotation = horseShoe.horseShoeSnap.rotation;
 
             // Update score if a ScoreSystem is attached
-
+            if (scoreManager != null)
+            {
                 scoreManager.AddPoint();
+            }
 
             // Update the TextMeshPro text (if assigned in the inspector)
             if (hitText != null)

@@ -5,10 +5,13 @@ public class HorseShoe : MonoBehaviour
     [SerializeField] public Transform horseShoeSnap;
     [SerializeField] private Transform tableSnap;
     [SerializeField] public GameObject horseShoePrefab;
+    public ScoreManager scoreManager; // Reference to the ScoreManager script
     public float RewardScore;
 
     private void OnTriggerEnter(Collider other)
     {
+        ScoreManager.instance.AddPoint();   
+
         // Check if horseshoe hit the pole
         if (other.CompareTag("Pole"))
         {
@@ -26,5 +29,9 @@ public class HorseShoe : MonoBehaviour
             horseShoeSnap.position = tableSnap.position;
             horseShoeSnap.rotation = tableSnap.rotation;
         }
+    }
+    private void Awake()
+    {
+        
     }
 }
