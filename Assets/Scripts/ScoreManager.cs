@@ -21,13 +21,19 @@ public class ScoreManager : MonoBehaviour
     }
     void Start()
     {
-        scoreText.text += score.ToString("POINTS");
-        highScoreText.text += highScore.ToString("HIGH SCORE");
+        scoreText.text += score.ToString();
+        highScoreText.text += highScore.ToString();
     }
 
-    public void AddPoint()
+    public void AddPoint(int amount)
     {
-        score += 1;
-        scoreText.text += score.ToString("POINTS");
+        score += amount;
+        if (scoreText != null)
+        {
+            score += 1;
+            scoreText.text += "Score" + score.ToString();
+
+        }
+       
     }
 }

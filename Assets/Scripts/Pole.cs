@@ -8,6 +8,7 @@ public class Pole : MonoBehaviour
     [SerializeField] private HorseShoe horseShoe;
     public ScoreManager scoreManager;
     [SerializeField] private TMP_Text hitText; // TextMeshPro text to update when a horseshoe hits the pole
+    public int points = 1; // Points awarded for hitting the pole   
 
     private bool spawn = false;
     private float spawnTimer = 0f;
@@ -47,13 +48,16 @@ public class Pole : MonoBehaviour
             // Update score if a ScoreSystem is attached
             if (scoreManager != null)
             {
-                scoreManager.AddPoint();
+                scoreManager.AddPoint(points);
             }
 
             // Update the TextMeshPro text (if assigned in the inspector)
             if (hitText != null)
             {
                 hitText.text = "Hit!"; // change to any message you prefer, or set to scoreSystem's value if available
+            }
+
+            else {                 Debug.LogWarning("Hit text is not assigned in the inspector.");
             }
 
             spawn = true;
