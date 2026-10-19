@@ -1,18 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI;
+
 
 
 public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager instance;
-    public TextMeshPro scoreText;
-    public TextMeshPro highScoreText;
-
+    public TextMeshPro scoreText;  
     int score = 0;
-    int highScore = 0;
+    public int currentScore = 0;
+    
     // Start is cal
     //led once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -22,11 +19,13 @@ public class ScoreManager : MonoBehaviour
     void Start()
     {
         scoreText.text += score.ToString();
-        highScoreText.text += highScore.ToString();
+        
+      
     }
 
     public void AddPoint(int amount)
     {
+        currentScore += amount;
         score += amount;
         if (scoreText != null)
         {
