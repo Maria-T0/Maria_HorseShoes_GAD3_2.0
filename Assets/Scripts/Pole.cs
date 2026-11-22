@@ -6,6 +6,7 @@ using TMPro;
 public class Pole : MonoBehaviour
 {
     [SerializeField] private HorseShoe horseShoe;
+    [SerializeField, Min(1)] private int points = 1;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -15,14 +16,15 @@ public class Pole : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        ScoreManager.instance.AddScore();
         HorseShoe incoming = other.GetComponent<HorseShoe>() ?? other.GetComponentInParent<HorseShoe>();
 
         if (incoming != null || other.CompareTag("HorseShoe"))
         {
+            ScoreManager.instance.AddScore(points);
             Debug.Log("HorseShoe entered the pole trigger");
-            horseShoe.transform.position = horseShoe.horseShoeSnap.position;
-            horseShoe.transform.rotation = horseShoe.horseShoeSnap.rotation;
+
+            HorseShoe shoeToReset = incoming != null ? incoming : horseShoe;
+            shoeToReset.SnapToPoleAndReturnToTable();
         }
     }
 }

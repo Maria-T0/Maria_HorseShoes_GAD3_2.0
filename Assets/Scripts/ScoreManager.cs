@@ -18,9 +18,9 @@ public class ScoreManager : MonoBehaviour
         scoreText.text = "Score: " + currentScore.ToString();   
     }
 
-    public void AddScore()
+    public void AddScore(int points)
     {
-        currentScore = currentScore + 1;
+        currentScore = currentScore + points;
         scoreText.text = "Score: " + currentScore.ToString();
     }
 }
