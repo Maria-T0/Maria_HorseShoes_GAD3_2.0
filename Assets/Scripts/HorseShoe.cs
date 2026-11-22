@@ -37,6 +37,7 @@ public class HorseShoe : MonoBehaviour
 
     private void MoveToSnap(Transform snap)
     {
+        ReleaseFromHand();
         transform.SetPositionAndRotation(snap.position, snap.rotation);
 
         Rigidbody rigidbody = GetComponent<Rigidbody>();
@@ -44,6 +45,20 @@ public class HorseShoe : MonoBehaviour
         {
             rigidbody.linearVelocity = Vector3.zero;
             rigidbody.angularVelocity = Vector3.zero;
+        }
+    }
+
+    private void ReleaseFromHand()
+    {
+        Behaviour[] behaviours = GetComponentsInChildren<Behaviour>(true);
+
+        foreach (Behaviour behaviour in behaviours)
+        {
+            if (behaviour.GetType().Name == "XRGrabInteractable")
+            {
+                behaviour.enabled = false;
+                behaviour.enabled = true;
+            }
         }
     }
 }

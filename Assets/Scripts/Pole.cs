@@ -3,10 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 
+using UnityEngine;
+
+[RequireComponent(typeof(AudioSource))]
 public class Pole : MonoBehaviour
 {
     [SerializeField] private HorseShoe horseShoe;
     [SerializeField, Min(1)] private int points = 1;
+    [SerializeField] private AudioClip hitSound;
+
+    private AudioSource audioSource;
+
+    private void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -20,6 +31,11 @@ public class Pole : MonoBehaviour
 
         if (incoming != null || other.CompareTag("HorseShoe"))
         {
+            if (hitSound != null)
+            {
+                audioSource.PlayOneShot(hitSound);
+            }
+
             ScoreManager.instance.AddScore(points);
             Debug.Log("HorseShoe entered the pole trigger");
 
